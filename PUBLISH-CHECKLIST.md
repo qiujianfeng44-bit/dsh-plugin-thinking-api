@@ -18,7 +18,7 @@
       `node scripts/check-compat.mjs --workspace <DSH workspace 根>`
       任何 ✗ 都必须先修复再发布
 
-## 3. 校验（本地）
+## 3. 校验（本地 + CI）
 
 ```bash
 cd dsh-plugin-thinking-api
@@ -29,6 +29,9 @@ npm run check                      # 同上的封装
 npm run check:compat -- --workspace <DSH workspace 根>   # 契约自检（默认自动向上找）
 npm pack --dry-run                 # 确认 files 白名单只打包预期文件（含 scripts/check-compat.mjs）
 ```
+
+> 推送后 GitHub Actions（`.github/workflows/check.yml`）会自动再跑一遍语法 + 包体检；
+> push 前本地跑一遍、push 后看 CI 绿勾即可。
 
 ## 4. 真机验证（必做，mock 无法替代）
 
