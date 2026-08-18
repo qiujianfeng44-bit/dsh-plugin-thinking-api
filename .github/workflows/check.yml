@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - run: npm run check
 
   package:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       # npm pack --dry-run 不联网、不装依赖，验证 files 白名单与包结构
       - run: npm pack --dry-run --json > /tmp/pack.json
       - name: assert expected files are packaged
@@ -40,7 +40,7 @@ jobs:
             if (missing.length) { console.error('missing in tarball:', missing); process.exit(1); }
             console.log('tarball ok,', have.length, 'files');
           "
-      - name: assert version bumped from last release
+      - name: warn if version already published (only meaningful before publish)
         run: |
           node -e "
             const cur = require('./package.json').version;
@@ -48,8 +48,8 @@ jobs:
             https.get('https://registry.npmjs.org/dsh-plugin-thinking-api', r => {
               let b=''; r.on('data', c => b += c); r.on('end', () => {
                 const latest = JSON.parse(b)['dist-tags'].latest;
-                if (cur === latest) { console.log('version ' + cur + ' already published — bump it'); process.exit(1); }
-                console.log('version ' + cur + ' > latest ' + latest);
+                if (cur === latest) { console.log('version ' + cur + ' == npm latest; bump before publish (not a CI failure)'); }
+                else { console.log('version ' + cur + ' != latest ' + latest); }
               });
             }).on('error', () => { console.log('registry unreachable — skip'); });
           "
