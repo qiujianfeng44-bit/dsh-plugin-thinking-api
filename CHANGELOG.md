@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-08-18
+
+### Changed
+
+- 仓库地址更新为新的 GitHub 用户名 `qjf44`（`repository.url`、README 安装命令、
+  PUBLISH-CHECKLIST 中的链接全部同步）。旧地址会自动 301 重定向。
+
 ## [0.1.1] - 2026-08-18
 
 ### Fixed
