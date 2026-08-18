@@ -14,6 +14,7 @@
   <img src="https://badgen.net/badge/license/MIT/blue" alt="license">
   <img src="https://badgen.net/badge/node/%3E%3D20/green" alt="node">
   <img src="https://badgen.net/badge/dsh/0.1.0--rc.6/purple" alt="dsh">
+  <img src="https://github.com/qjf44/dsh-plugin-thinking-api/actions/workflows/check.yml/badge.svg" alt="ci">
 </p>
 
 ---
@@ -91,6 +92,8 @@ export CODEBUDDY_API_KEY=ck_xxxxxxxx
 
 Restart, then pick your API's models from the model picker.
 
+> 📄 Ready-to-copy configs (CodeBuddy / self-hosted vLLM / any OpenAI-compatible relay): see [`examples/settings.yaml`](./examples/settings.yaml).
+
 ## One-click setup in the Web GUI
 
 The plugin also registers a **Settings → Thinking API** panel with a single setup wizard. Open it to connect an API without touching YAML:
@@ -157,6 +160,19 @@ After the upgrade, codebuddy requests failed 100% with `PI_AI_ERROR: Provider is
 Fix: `buildProvider` now assembles auth as `{ apiKey: { name, resolve } }`, matching the official `dsh-llm-pi-ai` `routeAuth`/`harnessApiKeyAuth` shape. The plugin also self-checks this contract at startup, so a version mismatch now fails loudly at boot instead of on your first message.
 
 Second pitfall: **editing a provider in the GUI wizard with the key field left blank wiped the existing `apiKeyEnv`**, losing the credential reference after an upgrade/reconfigure (reported as `MISSING_CREDENTIAL` or auth failures). Fixed: in edit mode, a blank key means "keep unchanged" and the previous `apiKeyEnv` is preserved.
+
+## Contributing
+
+Bugs and reports welcome — please open an issue via the [bug report template](https://github.com/qjf44/dsh-plugin-thinking-api/issues/new/choose) (it asks for the DSH version, plugin version, and the compat-check output, which covers 90% of failures).
+
+Before opening a PR, run the local checks:
+
+```bash
+npm run check                 # syntax (lib/index.mjs, lib/client.js, scripts/check-compat.mjs)
+node scripts/check-compat.mjs --workspace ~/.workbuddy/binaries/node/workspace   # contract check against your real DSH
+```
+
+CI runs `npm run check` plus an npm-package sanity job (tarball file list and version-bump) on every push/PR — see [`.github/workflows/check.yml`](.github/workflows/check.yml).
 
 ## License
 

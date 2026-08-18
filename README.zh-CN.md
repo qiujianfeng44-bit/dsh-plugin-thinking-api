@@ -14,6 +14,7 @@
   <img src="https://badgen.net/badge/license/MIT/blue" alt="license">
   <img src="https://badgen.net/badge/node/%3E%3D20/green" alt="node">
   <img src="https://badgen.net/badge/dsh/0.1.0--rc.6/purple" alt="dsh">
+  <img src="https://github.com/qjf44/dsh-plugin-thinking-api/actions/workflows/check.yml/badge.svg" alt="ci">
 </p>
 
 ---
@@ -91,6 +92,8 @@ export CODEBUDDY_API_KEY=ck_xxxxxxxx
 
 重启后，从模型选择器里选你的 API 模型即可。
 
+> 📄 可直接复制的配置（CodeBuddy / 自建 vLLM / 任意 OpenAI 兼容中转站）：见 [`examples/settings.yaml`](./examples/settings.yaml)。
+
 ## Web 界面一键配置
 
 插件还注册了 **设置 → 思考 API** 面板，内置一个统一的接入向导，不用手写 YAML 就能接入 API：
@@ -157,6 +160,19 @@ node scripts/check-compat.mjs --workspace ~/.workbuddy/binaries/node/workspace
 修复：`buildProvider` 把 auth 组装成 `{ apiKey: { name, resolve } }`，与官方 `dsh-llm-pi-ai` 的 `routeAuth`/`harnessApiKeyAuth` 形态一致。插件现在启动时会自检该契约，版本不匹配会在启动时直接报错，而不是等你发消息。
 
 另一个坑：**GUI 向导编辑 provider 时 key 留空会抹掉已有的 `apiKeyEnv`**，导致升级/重配后密钥引用丢失（报 `MISSING_CREDENTIAL` 或认证失效）。已修复：编辑模式 key 留空表示「不改」，沿用原有 `apiKeyEnv`。
+
+## 参与贡献
+
+欢迎提交 bug 和反馈——请用 [bug 报告模板](https://github.com/qjf44/dsh-plugin-thinking-api/issues/new/choose) 建 issue（模板会要 DSH 版本、插件版本和 check-compat 输出，能覆盖九成故障）。
+
+提 PR 前先跑本地检查：
+
+```bash
+npm run check                 # 语法（lib/index.mjs、lib/client.js、scripts/check-compat.mjs）
+node scripts/check-compat.mjs --workspace ~/.workbuddy/binaries/node/workspace   # 对真实 DSH 做契约自检
+```
+
+每次 push/PR 时 CI 会跑 `npm run check` 加一个 npm 包体检 job（tarball 文件清单、版本号是否已发布）——见 [`.github/workflows/check.yml`](.github/workflows/check.yml)。
 
 ## License
 
