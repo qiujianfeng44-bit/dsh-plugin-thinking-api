@@ -1,0 +1,5 @@
+# dsh-plugin-thinking-api bundle：注册「一键配置带思考模式的 API」插件（host）。
+# 只 insert 自身 id 一次；name 为包名，由 cordis loader 解析到 package.json 的 main 入口。
+- insert:
+    - id: thinking-api
+      name: 'dsh-plugin-thinking-api'
