@@ -1,0 +1,55 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  syntax:
+    name: syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run check
+
+  package:
+    name: npm package sanity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # npm pack --dry-run 不联网、不装依赖，验证 files 白名单与包结构
+      - run: npm pack --dry-run --json > /tmp/pack.json
+      - name: assert expected files are packaged
+        run: |
+          node -e "
+            const p = require('/tmp/pack.json')[0];
+            const want = [
+              'lib/index.mjs','lib/client.js','scripts/check-compat.mjs',
+              'cordis.patch.yml','CHANGELOG.md','README.md','README.zh-CN.md','LICENSE','package.json'
+            ];
+            const have = p.files.map(f => f.path);
+            const missing = want.filter(w => !have.includes(w));
+            if (missing.length) { console.error('missing in tarball:', missing); process.exit(1); }
+            console.log('tarball ok,', have.length, 'files');
+          "
+      - name: assert version bumped from last release
+        run: |
+          node -e "
+            const cur = require('./package.json').version;
+            const https = require('https');
+            https.get('https://registry.npmjs.org/dsh-plugin-thinking-api', r => {
+              let b=''; r.on('data', c => b += c); r.on('end', () => {
+                const latest = JSON.parse(b)['dist-tags'].latest;
+                if (cur === latest) { console.log('version ' + cur + ' already published — bump it'); process.exit(1); }
+                console.log('version ' + cur + ' > latest ' + latest);
+              });
+            }).on('error', () => { console.log('registry unreachable — skip'); });
+          "
