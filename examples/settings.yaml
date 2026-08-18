@@ -1,0 +1,43 @@
+# dsh-plugin-thinking-api 配置示例
+# 复制需要的 providers 到 ~/.dsh/settings.yaml 的 thinking-api.providers 下。
+#
+# 密钥：apiKeyEnv 引用环境变量名（不写密钥本身）——
+#   方式一：Web 模型页存储（插件向导里"获取模型列表"也能引导存储）；
+#   方式二：export CODEBUDDY_API_KEY=... 后重启 Harness。
+# 密钥本身可放在 ~/.dsh/.env（DSH 会加载），也可用系统的 credentials。
+
+thinking-api:
+  providers:
+    # —— 示例 1：腾讯 CodeBuddy（DeepSeek 系模型，自动带思考模式）——
+    codebuddy:
+      displayName: CodeBuddy
+      baseURL: https://copilot.tencent.com/v2
+      apiKeyEnv: CODEBUDDY_API_KEY
+      thinkingFormat: deepseek      # 可选，默认 deepseek
+      models:
+        deepseek-v4-pro:
+          name: DeepSeek V4 Pro
+          thinking: true            # ← 开启思考模式
+        deepseek-v4-flash:
+          name: DeepSeek V4 Flash
+          thinking: false
+
+    # —— 示例 2：自建 vLLM（OpenAI 兼容端点，无 developer 角色问题）——
+    vllm:
+      displayName: Local vLLM
+      baseURL: http://127.0.0.1:8000/v1
+      apiKeyEnv: VLLM_API_KEY
+      models:
+        my-model:
+          name: My vLLM Model
+          thinking: false
+
+    # —— 示例 3：任意 OpenAI 兼容中转站 ——
+    proxy:
+      displayName: My Proxy
+      baseURL: https://api.example-proxy.com/v1
+      apiKeyEnv: PROXY_API_KEY
+      models:
+        gpt-4o-mini:
+          name: GPT-4o mini
+          thinking: false
