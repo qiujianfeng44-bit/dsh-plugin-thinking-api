@@ -5,6 +5,19 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **GitHub Actions CI**（`.github/workflows/check.yml`）：每次 push/PR 自动跑语法检查
+  （`npm run check`）+ npm 包体检（tarball 文件清单、版本号比对），升级 DSH 前的
+  `check-compat` 契约自检仍建议在真实 DSH workspace 上手动跑。
+- **示例配置** `examples/settings.yaml`：CodeBuddy / 自建 vLLM / 任意 OpenAI 兼容
+  中转站三个可直接复制的模板。
+- **Issue 模板** `.github/ISSUE_TEMPLATE/bug_report.yml`：报 bug 时自动收集 DSH 版本、
+  插件版本、check-compat 输出。
+- **README**：CI 徽章、示例配置引用、参与贡献指引（中英双语）。
+
 ## [0.1.2] - 2026-08-18
 
 ### Changed
