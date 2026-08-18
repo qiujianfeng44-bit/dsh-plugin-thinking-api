@@ -5,9 +5,9 @@
 ## 1. 包身份（已定稿，发布前核对一致即可）
 
 - [ ] `package.json` 的 `name`：`dsh-plugin-thinking-api`
-- [ ] `package.json` 的 `repository.url`：`git+https://github.com/qiujianfeng44-bit/dsh-plugin-thinking-api.git`
+- [ ] `package.json` 的 `repository.url`：`git+https://github.com/qjf44/dsh-plugin-thinking-api.git`
 - [ ] `cordis.patch.yml` 里的 `name`：`dsh-plugin-thinking-api`（与 package.json 一致）
-- [ ] `README.md` / `README.zh-CN.md` 的安装命令：`github:qiujianfeng44-bit/dsh-plugin-thinking-api`
+- [ ] `README.md` / `README.zh-CN.md` 的安装命令：`github:qjf44/dsh-plugin-thinking-api`
 - [ ] 四处（name / repository / cordis.patch.yml / README）完全一致
 
 ## 2. 依赖版本核对（发布时再查一次）
@@ -42,7 +42,7 @@ npm pack --dry-run                 # 确认 files 白名单只打包预期文件
 
 ```bash
 git init && git add -A && git commit -m "feat: one-block OpenAI-compatible API with thinking mode"
-git remote add origin https://github.com/qiujianfeng44-bit/dsh-plugin-thinking-api.git
+git remote add origin https://github.com/qjf44/dsh-plugin-thinking-api.git
 git push -u origin main
 npm publish --access public          # 可选：发到 npm；或用户直接 github: 引用
 ```
@@ -56,6 +56,6 @@ npm publish --access public          # 可选：发到 npm；或用户直接 git
 
 用户端只需三步，写进 README 顶部：
 
-1. `package.json` 加 `github:qiujianfeng44-bit/dsh-plugin-thinking-api` 依赖 + bundle；
+1. `package.json` 加 `github:qjf44/dsh-plugin-thinking-api` 依赖 + bundle；
 2. `settings.yaml` 写 `thinking-api.providers.<id>`（baseURL + apiKeyEnv + models）；
 3. 存储密钥（Web 模型页或 `export`），重启。

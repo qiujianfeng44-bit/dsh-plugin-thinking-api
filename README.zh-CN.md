@@ -44,7 +44,7 @@
 // ~/.dsh/profiles/<profile>/package.json
 {
   "dependencies": {
-    "dsh-plugin-thinking-api": "github:qiujianfeng44-bit/dsh-plugin-thinking-api"
+    "dsh-plugin-thinking-api": "github:qjf44/dsh-plugin-thinking-api"
   },
   "dsh": {
     "profile": {
