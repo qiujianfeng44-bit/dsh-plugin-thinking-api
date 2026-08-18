@@ -1,0 +1,39 @@
+name: Bug report
+description: 插件不工作 / 报错 / 升级 DSH 后异常
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 先跑自检
+        升级过 DSH 或 pi-ai 后请先跑（结果直接贴进来）：
+        ```bash
+        node scripts/check-compat.mjs --workspace ~/.workbuddy/binaries/node/workspace
+        ```
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH 版本
+      description: ~/.dsh/profiles/<profile>/node_modules/@deepseek-ai/dsh-llm-pi-ai/package.json 的 version
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: 插件版本
+      description: npm 包版本（npm view dsh-plugin-thinking-api version）或 github: 引用
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 现象
+      description: 报错原文 / 截图 / 复现步骤
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: 相关配置（脱敏）
+      description: settings.yaml 里 thinking-api 部分（把 apiKeyEnv 名字留下、密钥删掉）
